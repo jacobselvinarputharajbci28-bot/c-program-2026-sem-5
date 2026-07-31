@@ -1,0 +1,114 @@
+static void    reset_tab_digits(int tab[10])
+{
+    int i;
+
+    i = 0;
+    while (i < 10)
+    {
+        tab[i] = 0;
+        i++;
+    }
+}
+
+static bool rows(char** board, int boardSize, int* boardColSize)
+{ // 1. Each row must contain the digits 1-9 without repetition.
+    int i;
+    int k;
+    int tab_digits[10] = {0};
+
+    i = 0;
+    k = 0;
+    while (i < *boardColSize)
+    {
+        while (k < boardSize)
+        {
+            if (board[i][k] >= '1' && board[i][k] <= '9')
+            {
+                tab_digits[(board[i][k] - '0')]++;
+                if (tab_digits[(board[i][k] - '0')] > 1)
+                    return (false);
+            }
+            k++;
+        }
+        i++;
+        k = 0;
+        reset_tab_digits(tab_digits);
+    }
+    return (true);
+}
+
+static bool columns(char** board, int boardSize, int* boardColSize)
+{ // 2. Each column must contain the digits 1-9 without repetition.
+    int i;
+    int k;
+    int tab_digits[10] = {0};
+
+    i = 0;
+    k = 0;
+    while (i < *boardColSize)
+    {
+        while (k < boardSize)
+        {
+            if (board[k][i] >= '1' && board[k][i] <= '9')
+            {
+                tab_digits[(board[k][i] - '0')]++;
+                if (tab_digits[(board[k][i] - '0')] > 1)
+                    return (false);
+            }
+            k++;
+        }
+        i++;
+        k = 0;
+        reset_tab_digits(tab_digits);
+    }
+    return (true);
+}
+
+static bool squares(char** board, int boardSize, int* boardColSize)
+{ // 3. Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+    int i;
+    int k;
+    int limit;
+    int k_limit;
+    int square;
+    int tab_digits[10] = {0};
+
+    square = 0;
+    limit = 3;
+    k_limit = 3;
+    while (square < 9)
+    {
+        i = limit - 3;
+        while (i < limit)
+        {
+            k = k_limit - 3;  
+            while (k < k_limit)
+            {
+                if (board[i][k] >= '1' && board[i][k] <= '9')
+                {
+                    tab_digits[(board[i][k] - '0')]++;
+                    if (tab_digits[(board[i][k] - '0')] > 1)
+                        return (false);
+                }
+                k++;
+            }
+            i++;
+        }
+        reset_tab_digits(tab_digits);
+        if (k_limit == 9)
+            k_limit = 3;
+        else
+            k_limit += 3;
+        if (square >= 2 && square < 5)
+            limit = 6;
+        else if (square >= 5)
+            limit = 9;
+        square++;
+    }
+    return (true);
+}
+
+bool isValidSudoku(char** board, int boardSize, int* boardColSize)
+{
+    return (rows(board, boardSize, boardColSize) && columns(board, boardSize, boardColSize) && squares(board, boardSize, boardColSize));
+}
