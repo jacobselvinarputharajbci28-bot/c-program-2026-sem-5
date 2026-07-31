@@ -1,0 +1,29 @@
+bool canConstruct(char* ransomNote, char* magazine) {
+    int i;
+    long letter_magzine[26];
+    long letter_ransom[26];
+    int d;
+
+    i = 0;
+    while(magazine[i] != '\0') // going through magazine to store letters in letter_magazine
+    {
+        d = magazine[i] - 'a';
+        letter_magzine[d]++;
+        i++;
+    }
+    i = 0;
+    while(ransomNote[i] != '\0') // going though ransoomNote to store letters in letter_ransom
+    {
+        d = ransomNote[i] - 'a';
+        letter_ransom[d]++;
+        i++;
+    }
+    i = 0;
+    while(i < 26) // comparing
+    {
+        if (letter_ransom[i] > letter_magzine[i])
+            return (false);
+        i++;
+    }
+    return (true);
+}
