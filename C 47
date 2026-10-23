@@ -1,0 +1,20 @@
+int mySqrt(int x) {
+    
+    // Special case: square root of 0 is 0
+    if (x == 0)
+        return 0;
+
+    // Start checking from 1
+    int i = 1;
+
+    // Check if i² <= x
+    // Using x / i avoids integer overflow from i * i
+    while (i <= x / i)
+    {
+        // Move to the next possible square root
+        i++;
+    }
+
+    // i is now too large, so the previous value is the answer
+    return i - 1;
+}
